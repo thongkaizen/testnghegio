@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Nghe Giờ</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .question { margin: 20px 0; }
+        .result { font-weight: bold; color: red; }
+    </style>
+</head>
+<body>
+    <h2>Kiểm Tra Nghe Giờ</h2>
+    
+    <div id="test-container"></div>
+    <button onclick="checkAnswers()">Nộp bài</button>
+    
+    <script>
+        const questions = [
+            { audio: "6h33.wav", answer: "6:33" },
+            { audio: "7h53.wav", answer: "7:53" },
+            { audio: "8h9.wav", answer: "8:09" },
+            { audio: "9h17.wav", answer: "9:17" },
+            { audio: "9h28.wav", answer: "9:28" },
+            { audio: "10h23.wav", answer: "10:23" },
+            { audio: "10h49.wav", answer: "10:49" },
+            { audio: "11h42.wav", answer: "11:42" },
+            { audio: "12h35.wav", answer: "12:35" },
+            { audio: "1h12.wav", answer: "1:12" }
+        ];
+        
+        function loadTest() {
+            const container = document.getElementById("test-container");
+            questions.forEach((q, index) => {
+                const div = document.createElement("div");
+                div.classList.add("question");
+                div.innerHTML = `
+                    <p>Câu ${index + 1}:</p>
+                    <audio controls>
+                        <source src="${q.audio}" type="audio/wav">
+                        Trình duyệt của bạn không hỗ trợ audio.
+                    </audio>
+                    <br>
+                    <input type="text" id="answer-${index}" placeholder="Nhập đáp án">
+                    <p class="result" id="result-${index}"></p>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function checkAnswers() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const userAnswer = document.getElementById(`answer-${index}`).value.trim();
+                const resultDisplay = document.getElementById(`result-${index}`);
+                if (userAnswer === q.answer) {
+                    score += 10;
+                    resultDisplay.textContent = "✅ Chính xác!";
+                    resultDisplay.style.color = "green";
+                } else {
+                    resultDisplay.textContent = `❌ Sai! Đáp án đúng: ${q.answer}`;
+                    resultDisplay.style.color = "red";
+                }
+            });
+            alert(`Tổng điểm của bạn: ${score}/100`);
+        }
+        
+        window.onload = loadTest;
+    </script>
+</body>
+</html>
